@@ -129,7 +129,7 @@ class Firmware(models.Model):
     )
 
     name = models.CharField(max_length=128, blank=False, null=False, help_text="The name of the firmware")
-    family = models.ForeignKey('DeviceFamily')
+    family = models.ForeignKey('DeviceFamily', on_delete=models.CASCADE) # corbin, consider on_delete action here for django 2.
 
     version = models.CharField(max_length=20, default="0.0", help_text="The major version number")
     revision = models.CharField(max_length=20, default="0.0", help_text="The minor revision number")
@@ -309,7 +309,7 @@ class Board(models.Model):
 
     name = models.CharField(max_length=128, blank=False, null=False, help_text="The name of the board")
 
-    family = models.ForeignKey('DeviceFamily')
+    family = models.ForeignKey('DeviceFamily', on_delete=models.CASCADE) # corbin, probably want it set to set it to null, but that generates an error for 
 
     description = models.TextField(default="", blank=True, null=False, help_text="The description of the board")
 

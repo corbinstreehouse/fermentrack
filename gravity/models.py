@@ -115,7 +115,7 @@ class GravitySensor(models.Model):
 
     # The beer that is currently active & being logged
     active_log = models.ForeignKey('GravityLog', null=True, blank=True, default=None,
-                                   help_text='The currently active log of readings')
+                                   help_text='The currently active log of readings', on_delete=models.SET_NULL), #SET NULL PROABLY makes the most sense..
 
     # The assigned/linked BrewPi device (if applicable)
     assigned_brewpi_device = models.OneToOneField(BrewPiDevice, null=True, default=None, on_delete=models.SET_NULL,
@@ -501,7 +501,7 @@ class GravityLogPoint(models.Model):
 class TiltTempCalibrationPoint(models.Model):
     TEMP_FORMAT_CHOICES = (('F', 'Fahrenheit'), ('C', 'Celsius'))
 
-    sensor = models.ForeignKey('TiltConfiguration')
+    sensor = models.ForeignKey('TiltConfiguration', on_delete=models.CASCADE) #probably should cascade delete the calibration points when the tilt is deleted...
     orig_value = models.DecimalField(max_digits=8, decimal_places=4, verbose_name="Original (Sensor) Temp Value",
                                      help_text="Original (Sensor) Temp Value")
     actual_value = models.DecimalField(max_digits=8, decimal_places=4, verbose_name="Actual (Measured) Temp Value",
@@ -552,7 +552,7 @@ class TiltTempCalibrationPoint(models.Model):
 
 
 class TiltGravityCalibrationPoint(models.Model):
-    sensor = models.ForeignKey('TiltConfiguration')
+    sensor = models.ForeignKey('TiltConfiguration',  on_delete=models.CASCADE)
     actual_gravity = models.DecimalField(max_digits=5, decimal_places=3, verbose_name="Actual (Correct) Gravity value")
     tilt_measured_gravity = models.DecimalField(max_digits=5, decimal_places=3,
                                                 verbose_name="Tilt Measured Gravity Value")
@@ -785,7 +785,7 @@ class TiltBridge(models.Model):
 
 ### iSpindel specific models
 class IspindelGravityCalibrationPoint(models.Model):
-    sensor = models.ForeignKey('IspindelConfiguration')
+    sensor = models.ForeignKey('IspindelConfiguration',  on_delete=models.CASCADE)
     angle = models.DecimalField(max_digits=10, decimal_places=7, verbose_name="Angle (Measured by Device)")
     gravity = models.DecimalField(max_digits=8, decimal_places=4, verbose_name="Gravity Value (Measured Manually)")
     created = models.DateTimeField(default=timezone.now)  # So we can track when the calibration was current as of

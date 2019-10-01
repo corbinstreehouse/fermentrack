@@ -1234,7 +1234,7 @@ class BeerLogPoint(models.Model):
     # Adding temp_format here so we can do conversions later on if we want to
     temp_format = models.CharField(max_length=1, choices=TEMP_FORMAT_CHOICES, default='C')
 
-    associated_beer = models.ForeignKey(Beer, db_index=True, on_delete=models.DO_NOTHING)
+    associated_beer = models.ForeignKey(Beer, db_index=True, on_delete=models.CASCADE) #corbin?? cascade delete when the beer is deleted?
 
     gravity = models.DecimalField(max_digits=5, decimal_places=3, null=True)
     gravity_temp = models.DecimalField(max_digits=13, decimal_places=10, null=True)
