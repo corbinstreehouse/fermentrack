@@ -178,3 +178,10 @@ config.ini
 # Ignore downloaded firmware files
 *.bin
 *.hex
+/collected_static/admin
+/collected_static/css
+/collected_static/favicon.ico
+/collected_static/fonts
+/collected_static/img
+/collected_static/js
+/collected_static/vendor
