@@ -115,7 +115,7 @@ class GravitySensor(models.Model):
 
     # The beer that is currently active & being logged
     active_log = models.ForeignKey('GravityLog', null=True, blank=True, default=None,
-                                   help_text='The currently active log of readings', on_delete=models.SET_NULL), #SET NULL PROABLY makes the most sense..
+                                   help_text='The currently active log of readings', on_delete=models.SET_NULL) # SET_NULL probably makes the most sense.
 
     # The assigned/linked BrewPi device (if applicable)
     assigned_brewpi_device = models.OneToOneField(BrewPiDevice, null=True, default=None, on_delete=models.SET_NULL,
@@ -214,7 +214,7 @@ class GravityLog(models.Model):
     model_version = models.IntegerField(default=1)
 
     display_extra_data_as_annotation = models.BooleanField(default=False, help_text='Should any extra data be displayed as a graph annotation?')
-
+    
     def __str__(self) -> str:
         return self.name
 
