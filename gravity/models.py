@@ -12,7 +12,11 @@ import json, time, datetime, pytz
 from constance import config
 from fermentrack_django import settings
 import re
-import redis
+try:
+    import redis
+    hasRedis = True
+except ImportError:
+    hasRedis = False
 
 # from lib.ftcircus.client import CircusMgr, CircusException
 
@@ -471,6 +475,8 @@ class GravityLogPoint(models.Model):
         self.save_to_redis()
 
     def save_to_redis(self, device_id: int=None):
+        if not hasRedis:
+            return
         # This saves the current (presumably complete) object as the 'current' point to redis
         r = redis.Redis(host=settings.REDIS_HOSTNAME, port=settings.REDIS_PORT, password=settings.REDIS_PASSWORD)
         if device_id is None:
@@ -485,6 +491,9 @@ class GravityLogPoint(models.Model):
 
     @classmethod
     def load_from_redis(cls, sensor_id: int) -> 'GravityLogPoint' or None:
+        if not hasRedis:
+            return None
+
         r = redis.Redis(host=settings.REDIS_HOSTNAME, port=settings.REDIS_PORT, password=settings.REDIS_PASSWORD)
         try:
             # TODO - Redo this to remove overly greedy except
@@ -664,16 +673,25 @@ class TiltConfiguration(models.Model):
 
     # TODO - Eliminate the xxx_redis_reload_flag functions
     def set_redis_reload_flag(self):
+        if not hasRedis:
+            return
+
         r = redis.Redis(host=settings.REDIS_HOSTNAME, port=settings.REDIS_PORT, password=settings.REDIS_PASSWORD,
                         socket_timeout=5)
         r.set('tilt_reload_{}'.format(self.color), True)
 
     def clear_redis_reload_flag(self):
+        if not hasRedis:
+            return
+
         r = redis.Redis(host=settings.REDIS_HOSTNAME, port=settings.REDIS_PORT, password=settings.REDIS_PASSWORD,
                         socket_timeout=5)
         r.set('tilt_reload_{}'.format(self.color), None)
 
     def check_redis_reload_flag(self) -> bool:
+        if not hasRedis:
+            return False
+
         r = redis.Redis(host=settings.REDIS_HOSTNAME, port=settings.REDIS_PORT, password=settings.REDIS_PASSWORD,
                         socket_timeout=5)
         reload_flag = r.get('tilt_reload_{}'.format(self.color))

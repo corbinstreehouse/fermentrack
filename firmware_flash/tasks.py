@@ -1,6 +1,16 @@
 # Create your tasks here
 from __future__ import absolute_import, unicode_literals
-from huey.contrib.djhuey import periodic_task, task, db_periodic_task, db_task
+
+try:
+    from huey.contrib.djhuey import periodic_task, task, db_periodic_task, db_task
+    hasHuey = True
+except ImportError:
+    hasHuey = False
+    def db_task(*args, **kwargs):
+        def decorator(fn):
+            return fn
+        return decorator
+
 from . import models
 from app.models import BrewPiDevice
 
@@ -8,9 +18,9 @@ import os, subprocess, datetime, pytz, time
 import json
 
 
-
 @db_task()
 def flash_firmware(flash_request_id):
+    if not hasHuey: return
     flash_request = models.FlashRequest.objects.get(id=flash_request_id)
 
     # Set the status to "running" to provide additional feedback if something goes wrong
