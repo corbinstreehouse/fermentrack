@@ -12,6 +12,7 @@ import json
 from app.models import BrewPiDevice
 from gravity.models import GravitySensor
 
+
 class GenericPushTarget(models.Model):
     class Meta:
         verbose_name = "Generic Push Target"

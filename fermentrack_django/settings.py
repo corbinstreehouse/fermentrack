@@ -26,39 +26,21 @@ GIT_BRANCH = local_repo.active_branch.name
 
 # Application definition
 
-import platform
-if platform.system().lower() != "darwin":
-    INSTALLED_APPS = [
-        'django.contrib.admin',
-        'django.contrib.auth',
-        'django.contrib.contenttypes',
-        'django.contrib.sessions',
-        'django.contrib.messages',
-        'django.contrib.staticfiles',
-        'app.apps.AppConfig',
-        'firmware_flash.apps.AppConfig',
-        'gravity.apps.GravityAppConfig',
-        'external_push.apps.AppConfig',
-        'constance',
-        'constance.backends.database',
-        'huey.contrib.djhuey',
-    ]
-else:
-    INSTALLED_APPS = [
-        'django.contrib.admin',
-        'django.contrib.auth',
-        'django.contrib.contenttypes',
-        'django.contrib.sessions',
-        'django.contrib.messages',
-        'django.contrib.staticfiles',
-        'app.apps.AppConfig',
-        'gravity.apps.GravityAppConfig',
-        'constance',
-        'constance.backends.database',
-        'external_push.apps.AppConfig',
-        'firmware_flash.apps.AppConfig',
-#        'huey.contrib.djhuey',
-    ]
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'app.apps.AppConfig',
+    'firmware_flash.apps.AppConfig',
+    'gravity.apps.GravityAppConfig',
+    'external_push.apps.AppConfig',
+    'constance',
+    'constance.backends.database',
+    'huey.contrib.djhuey',
+]
 
 if ENABLE_SENTRY:
     import raven
@@ -248,7 +230,7 @@ REDIS_PASSWORD = ""  # Not used for most installations. If you need this, yell i
 
 
 
-# Huey Configuration (not used on macos)
+# Huey Configuration
 HUEY = {
     'name': 'fermentrack_huey',
     'store_none': False,
