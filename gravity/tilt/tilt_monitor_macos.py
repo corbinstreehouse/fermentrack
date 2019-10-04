@@ -1,5 +1,7 @@
 #!/usr/bin/python
 
+# corbin dunn, oct 3, 2019.
+
 import os, sys
 
 # done before importing django app as it does setup
