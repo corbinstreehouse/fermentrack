@@ -668,7 +668,7 @@ class TiltConfiguration(models.Model):
     def set_redis_reload_flag(self):
         r = redis.Redis(host=settings.REDIS_HOSTNAME, port=settings.REDIS_PORT, password=settings.REDIS_PASSWORD,
                         socket_timeout=5)
-        r.set('tilt_reload_{}'.format(self.color), True)
+        r.set('tilt_reload_{}'.format(self.color), 1) # True no longer works with redis 3
 
     def clear_redis_reload_flag(self):
         r = redis.Redis(host=settings.REDIS_HOSTNAME, port=settings.REDIS_PORT, password=settings.REDIS_PASSWORD,
