@@ -27,18 +27,16 @@ mydev = tilt_monitor_utils.bluetooth_device
 
 # Create a list of TiltHydrometer objects for us to use
 tilts = {x: TiltHydrometer(x) for x in TiltHydrometer.tilt_colors}  # type: Dict[str, TiltHydrometer]
-# Create a list of UUIDs to match against & make it easy to lookup color
-uuids = [TiltHydrometer.tilt_colors[x].replace("-","") for x in TiltHydrometer.tilt_colors]  # type: List[str]
+
 # Create the default
 reload_objects_at = datetime.datetime.now() + datetime.timedelta(seconds=15)
 
 
 def processBLEBeacon(data):
     # While I'm not a fan of globals, not sure how else we can store state here easily
-    global verboase
+    global verbose
     global reload_objects_at
     global tilts
-    global uuids
 
     ev = aiobs.HCI_Event()
     xx = ev.decode(data)
