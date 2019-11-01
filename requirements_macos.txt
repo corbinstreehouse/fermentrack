@@ -29,3 +29,4 @@ PyObjc # For bluetooth support
 pyzmq<17
 tornado<5
 
+mod_wsgi # python in apache on macos
